@@ -1,0 +1,5 @@
+* @kevinjlope
+*.dart @kevinjlope
+*.yml @kevinjlope
+*.yaml @kevinjlope
+.github/* @kevinjlope

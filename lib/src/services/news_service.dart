@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:news/src/models/news_models.dart';
-import 'package:news/src/.env/env.dart';
 import 'package:http/http.dart' as http;
-class NewsService with ChangeNotifier {
-  List<Article> headlines = [];
 
-  NewsService(){
-    this.getTopHeadlines();
+import '../.env_example/env.dart';
+import '../models/news_models.dart';
+
+// ignore: prefer_mixin
+class NewsService with ChangeNotifier {
+  List<Article> headlines = <Article>[];
+
+  NewsService() {
+    getTopHeadlines();
   }
-  getTopHeadlines() async {
-    final url = "$URL/top-headlines?apiKey=$API_KEY&country=us";
-    final response = await http.get(Uri.parse(url));
-    final newsResponse = NewsResponse.fromJson(response.body);
-    this.headlines.addAll(newsResponse.articles);
+  Future<void> getTopHeadlines() async {
+    final String url = '$URL/top-headlines?apiKey=$API_KEY&country=us';
+    final http.Response response = await http.get(Uri.parse(url));
+    final NewsResponse newsResponse = NewsResponse.fromJson(response.body);
+    headlines.addAll(newsResponse.articles);
     notifyListeners();
   }
 }
