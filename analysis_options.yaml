@@ -24,6 +24,74 @@ linter:
   rules:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # Style rules
+    - always_declare_return_types
+    - always_specify_types
+    - annotate_overrides
+    - avoid_escaping_inner_quotes
+    - avoid_final_parameters
+    - avoid_init_to_null
+    - avoid_null_checks_in_equality_operators
+    - avoid_positional_boolean_parameters
+    - avoid_private_typedef_functions
+    - avoid_renaming_method_parameters
+    - avoid_return_types_on_setters
+    - avoid_returning_null
+    - avoid_returning_null_for_void
+    - avoid_setters_without_getters
+    - avoid_shadowing_type_parameters
+    - avoid_single_cascade_in_expression_statements
+    - avoid_unnecessary_containers
+    - avoid_void_async
+    - camel_case_extensions
+    - camel_case_types
+    - constant_identifier_names
+    - empty_constructor_bodies
+    - file_names
+    - library_names
+    - library_prefixes
+    - lines_longer_than_80_chars
+    - missing_whitespace_between_adjacent_strings
+    - no_default_cases
+    - no_leading_underscores_for_library_prefixes
+    - prefer_conditional_assignment
+    - prefer_single_quotes
+    - prefer_equal_for_default_values
+    - prefer_if_null_operators
+    - prefer_initializing_formals
+    - prefer_interpolation_to_compose_strings
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_iterable_whereType
+    - prefer_mixin
+    - prefer_null_aware_method_calls
+    - prefer_null_aware_operators
+    - provide_deprecation_message
+    - recursive_getters
+    - sized_box_for_whitespace
+    - slash_for_doc_comments
+    - sort_child_properties_last
+    - unnecessary_new
+    - unnecessary_null_in_if_null_operators
+    - use_decorated_box
+    - use_setters_to_change_properties
+    - use_string_buffers
 
+    # Error rules
+    - avoid_dynamic_calls
+    - avoid_empty_else
+    - no_duplicate_case_values
+    - prefer_relative_imports
+    - prefer_void_to_null
+    - unrelated_type_equality_checks
+    - use_key_in_widget_constructors
+    - valid_regexps
+
+analyzer:
+  errors:
+    missing_required_param: warning
+    parameter_assignments: warning
+    missing_return: error
+    todo: ignore
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

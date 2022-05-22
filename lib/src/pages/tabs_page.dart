@@ -1,38 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:news/src/pages/tab1_page.dart';
-import 'package:news/src/pages/tab2_page.dart';
-import 'package:news/src/services/news_service.dart';
 import 'package:provider/provider.dart';
 
+import 'tab1_page.dart';
+import 'tab2_page.dart';
+
 class TabsPage extends StatelessWidget {
+  const TabsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    // ignore: always_specify_types
     return ChangeNotifierProvider(
-      create: (_) => new _NavegationModel(),
-      child: Scaffold(
+      create: (_) => _NavigationModel(),
+      child: const Scaffold(
         body: _Pages(),
-        bottomNavigationBar: _Navegation(),
+        bottomNavigationBar: _Navigation(),
       ),
     );
   }
 }
 
-class _Navegation extends StatelessWidget {
-  const _Navegation({
+class _Navigation extends StatelessWidget {
+  const _Navigation({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final navegationModel = Provider.of<_NavegationModel>(context);
+    final _NavigationModel navigationModel =
+        Provider.of<_NavigationModel>(context);
     return BottomNavigationBar(
-      currentIndex: navegationModel.pageCurrent,
-      onTap: (i) => navegationModel.pageCurrent = i,
-      items: [
+      currentIndex: navigationModel.pageCurrent,
+      onTap: (int i) => navigationModel.pageCurrent = i,
+      items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline), title: Text('For you')),
+            icon: Icon(Icons.person_outline), label: 'For you'),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline), title: Text('Header'))
+            icon: Icon(Icons.person_outline), label: 'Headlines'),
       ],
     );
   }
@@ -45,34 +49,32 @@ class _Pages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navegationModel = Provider.of<_NavegationModel>(context);
+    final _NavigationModel navigationModel =
+        Provider.of<_NavigationModel>(context);
 
     return PageView(
-      controller: navegationModel.pageController,
+      controller: navigationModel.pageController,
       //physics: NeverScrollableScrollPhysics(),
-      children: [
-        
-        Tab1Page(),
-        Tab2Page()
-      ],
+      children: const <Widget>[Tab1Page(), Tab2Page()],
     );
   }
 }
 
-class _NavegationModel with ChangeNotifier {
+// ignore: prefer_mixin
+class _NavigationModel with ChangeNotifier {
   int _pageCurrent = 0;
 
-  PageController _pageController = new PageController();
+  final PageController _pageController = PageController();
 
-  int get pageCurrent => this._pageCurrent;
+  int get pageCurrent => _pageCurrent;
 
   set pageCurrent(int value) {
-    this._pageCurrent = value;
+    _pageCurrent = value;
 
     _pageController.animateToPage(value,
-        duration: Duration(milliseconds: 250), curve: Curves.easeInCubic);
+        duration: const Duration(milliseconds: 250), curve: Curves.easeInCubic);
     notifyListeners();
   }
 
-  PageController get pageController => this._pageController;
+  PageController get pageController => _pageController;
 }
