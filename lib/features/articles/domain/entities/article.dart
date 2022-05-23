@@ -1,8 +1,18 @@
-
+import 'package:equatable/equatable.dart';
 
 import 'source.dart';
 
-class Article {
+// ignore: must_be_immutable
+class Article extends Equatable {
+  Source source;
+  String? author;
+  String title;
+  String? description;
+  String url;
+  String? urlToImage;
+  DateTime publishedAt;
+  String? content;
+
   Article({
     required this.source,
     this.author,
@@ -14,12 +24,16 @@ class Article {
     this.content,
   });
 
-  Source source;
-  String? author;
-  String title;
-  String? description;
-  String url;
-  String? urlToImage;
-  DateTime publishedAt;
-  String? content;
+  @override
+  // TODO: implement props
+  List<Object?> get props => <Object?>[
+        source,
+        author,
+        title,
+        description,
+        url,
+        urlToImage,
+        publishedAt,
+        content,
+      ];
 }

@@ -1,0 +1,13 @@
+{
+  "source": {
+    "id": "source id",
+    "name": "source name"
+  },
+  "author": "article author",
+  "title": "article title",
+  "description": "article description",
+  "url": "article url",
+  "urlToImage": "article image url",
+  "publishedAt": "2022-05-21T19:55:37Z",
+  "content": "article content"
+}

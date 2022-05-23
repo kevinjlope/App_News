@@ -1,16 +1,21 @@
+import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
+class Source extends Equatable {
+  String? id;
+  String name;
 
-class Source {
   Source({
     this.id,
     required this.name,
   });
 
-  String? id;
-  String name;
-  
   Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,
         'name': name,
       };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => <Object?>[id, name];
 }
