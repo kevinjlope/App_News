@@ -31,20 +31,20 @@ void main() {
   );
 
   final List<Article> tArticles = <Article>[tArticle, tArticle];
-  final Future<Either<Failure, List<Article>>> rtArticles =
-      Future<Either<Failure, List<Article>>>.value(
-          Right<Failure, List<Article>>(tArticles));
 
   test('should get articles by country from the repository', () async {
     //arrange
     when((() => mockArticlesRepository!.getArticlesByCountry(tCountry)))
-        .thenAnswer((_) => rtArticles);
+        .thenAnswer((_) => Future<Either<Failure, List<Article>>>.value(
+            Right<Failure, List<Article>>(tArticles))); //<-- Right(tArticles)
     // act
     final Either<Failure, List<Article>> result =
-         await usecase!.call(country: tCountry);
+        await usecase!(const Params(country: tCountry));
     // assert
     expect(result, Right<Failure, List<Article>>(tArticles));
+    // Verify that the method has been called on the repository
     verify(() => mockArticlesRepository!.getArticlesByCountry(tCountry));
+    // Only the above method should be called and nothing more.
     verifyNoMoreInteractions(mockArticlesRepository!);
   });
 }
