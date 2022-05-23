@@ -4,7 +4,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'src/pages/tabs_page.dart';
 import 'src/services/news_service.dart';
-import 'src/theme/theme.dart';
+import 'theme/theme.dart';
 
 void main() => runApp(const MyApp());
 

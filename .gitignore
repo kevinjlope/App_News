@@ -16,7 +16,7 @@
 .idea/
 
 #ENV
-.env/
+env.dart
 
 .fvm/
 
