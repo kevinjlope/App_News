@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../../domain/entities/source.dart';
 
+// ignore: must_be_immutable
 class SourceModel extends Source {
   SourceModel({String? id, required String name})
       : super(id: id ?? '', name: name);
@@ -9,7 +10,7 @@ class SourceModel extends Source {
   factory SourceModel.fromJson(String str) =>
       SourceModel.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
+  String toJsonEncode() => json.encode(toMap());
 
   factory SourceModel.fromMap(Map<String, dynamic> json) => SourceModel(
         id: json['id'],
