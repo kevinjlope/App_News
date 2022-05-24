@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import '../../domain/entities/article.dart';
-import '../../domain/entities/source.dart';
 import 'source_model.dart';
 
+// ignore: must_be_immutable
 class ArticleModel extends Article {
   ArticleModel(
-      {required Source source,
+      {required SourceModel source,
       String? author,
       required String title,
       String? description,
