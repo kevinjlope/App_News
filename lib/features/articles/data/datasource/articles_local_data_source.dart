@@ -8,5 +8,6 @@ abstract class ArticlesLocalDataSource {
   Future<ArticleModel> getLastArticle();
 
   /// Caches the given [ArticleModel].
-  Future<void> cacheArticle(ArticleModel articleToCache);
+  Future<void> cacheArticleByCountry(
+      List<ArticleModel> articleToCacheByCountry);
 }

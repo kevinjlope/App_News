@@ -6,7 +6,6 @@ import 'package:news/core/platform/network_info.dart';
 import 'package:news/features/articles/data/datasource/articles_local_data_source.dart';
 import 'package:news/features/articles/data/datasource/articles_remote_data_source.dart';
 import 'package:news/features/articles/data/models/article_model.dart';
-import 'package:news/features/articles/data/models/source_model.dart';
 import 'package:news/features/articles/data/repositories/articles_repository_impl.dart';
 import 'package:news/features/articles/domain/entities/article.dart';
 import 'package:news/features/articles/domain/entities/source.dart';
@@ -50,11 +49,23 @@ void main() {
       tArticleModel
     ];
     final List<Article> tArticlesEntity = tArticlesModel;
-    
+
     group('device is online', () {
       setUp(() {
+        //arrange
+        when(() => mockArticlesRemoteDataSource!.getArticlesByCountry(country))
+            .thenAnswer((_) async => tArticlesModel);
+        when(() => mockArticlesLocalDataSource!
+                .cacheArticleByCountry(tArticlesModel))
+            .thenAnswer((_) async => Future<void>.value());
         when((() => mockNetworkInfo!.isConnected))
             .thenAnswer((_) async => true);
+        //act
+        repository!.getArticlesByCountry(country);
+        //assert
+        verify(
+          () => mockNetworkInfo!.isConnected
+        );
       });
 
       test(
@@ -69,8 +80,22 @@ void main() {
         //assert
         verify(
             () => mockArticlesRemoteDataSource!.getArticlesByCountry(country));
-        expect(
-            result, equals(Right<Failure, List<Article>>(tArticlesEntity)));
+        expect(result, equals(Right<Failure, List<Article>>(tArticlesEntity)));
+      });
+
+      test(
+          'Should cache the data locally when the call to remote data source'
+          ' is successful', () async {
+        //arrange
+        when(() => mockArticlesRemoteDataSource!.getArticlesByCountry(country))
+            .thenAnswer((_) async => tArticlesModel);
+        //act
+        await repository!.getArticlesByCountry(country);
+        //assert
+        verify(
+            () => mockArticlesRemoteDataSource!.getArticlesByCountry(country));
+        verify(() =>
+            mockArticlesLocalDataSource!.cacheArticleByCountry(tArticlesModel));
       });
     });
   });

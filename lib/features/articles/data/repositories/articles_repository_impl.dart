@@ -23,7 +23,9 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
       String country) async {
     // TODO: implement getArticlesByCountry
     networkInfo!.isConnected;
-    return Right<Failure, List<Article>>(
-        await remoteDataSource!.getArticlesByCountry(country));
+    List<ArticleModel> remoteArticlesByCountry =
+        await remoteDataSource!.getArticlesByCountry(country);
+    localDataSource!.cacheArticleByCountry(remoteArticlesByCountry);
+    return Right<Failure, List<Article>>(remoteArticlesByCountry);
   }
 }
