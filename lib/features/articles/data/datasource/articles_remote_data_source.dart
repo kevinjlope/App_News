@@ -1,6 +1,6 @@
 import '../models/article_model.dart';
 
-abstract class ArticleRemoteDataSource {
+abstract class ArticlesRemoteDataSource {
   /// Gets the list of articles from the remote data source.
   /// 
   /// Throws [ServerException] if the server is unavailable.

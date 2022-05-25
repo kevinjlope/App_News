@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:news/core/error/failures.dart';
+import 'package:news/core/error/failure.dart';
 import 'package:news/features/articles/domain/entities/article.dart';
 import 'package:news/features/articles/domain/entities/source.dart';
 import 'package:news/features/articles/domain/repositories/articles_repository.dart';
