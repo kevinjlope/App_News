@@ -7,6 +7,10 @@ import 'package:news/features/articles/domain/entities/source.dart';
 import 'package:news/features/articles/domain/repositories/articles_repository.dart';
 import 'package:news/features/articles/domain/usecases/get_articles_by_country.dart';
 
+class MockSource extends Mock implements Source {}
+
+class MockArticle extends Mock implements Article {}
+
 class MockArticlesRepository extends Mock implements ArticlesRepository {}
 
 void main() {
@@ -19,18 +23,7 @@ void main() {
   });
 
   const String tCountry = 'us';
-  final Article tArticle = Article(
-    source: Source(id: 'source id', name: 'source name'),
-    author: 'article author',
-    title: 'article title',
-    description: 'article description',
-    url: 'article url',
-    urlToImage: 'article url to image',
-    publishedAt: DateTime.now(),
-    content: 'article content',
-  );
-
-  final List<Article> tArticles = <Article>[tArticle, tArticle];
+  final List<Article> tArticles = <Article>[MockArticle(), MockArticle()];
 
   test('should get articles by country from the repository', () async {
     //arrange
