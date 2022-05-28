@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:news/core/error/exception.dart';
 import 'package:news/core/error/failure.dart';
-import 'package:news/core/platform/network_info.dart';
+import 'package:news/core/network/network_info.dart';
 import 'package:news/features/articles/data/datasource/articles_local_data_source.dart';
 import 'package:news/features/articles/data/datasource/articles_remote_data_source.dart';
 import 'package:news/features/articles/data/models/article_model.dart';
@@ -58,7 +58,7 @@ void main() {
       setUp(() {
         //arrange
         log('setup group');
-        when(() => mockArticlesLocalDataSource!.cacheArticleByCountry(any()))
+        when(() => mockArticlesLocalDataSource!.cacheArticlesByCountry(any()))
             .thenAnswer((_) async => Future<void>.value());
         when((() => mockNetworkInfo!.isConnected))
             .thenAnswer((_) async => true);
@@ -91,7 +91,7 @@ void main() {
         verify(
             () => mockArticlesRemoteDataSource!.getArticlesByCountry(country));
         verify(() =>
-            mockArticlesLocalDataSource!.cacheArticleByCountry(tArticlesModel));
+            mockArticlesLocalDataSource!.cacheArticlesByCountry(tArticlesModel));
       });
 
       test(
@@ -115,7 +115,7 @@ void main() {
       setUp(() {
         //arrange
         log('setup group');
-        when(() => mockArticlesLocalDataSource!.cacheArticleByCountry(any()))
+        when(() => mockArticlesLocalDataSource!.cacheArticlesByCountry(any()))
             .thenAnswer((_) async => Future<void>.value());
 
         when(() => mockArticlesRemoteDataSource!.getArticlesByCountry(any()))

@@ -9,8 +9,8 @@
       "title": "article title",
       "description": "article description",
       "url": "article url",
-      "urlToImage": "article image url",
-      "publishedAt": "2000-10-10 00:00:00.000Z",
+      "urlToImage": "article url to image",
+      "publishedAt": "2020-10-10T00:00:00.000Z",
       "content": "article content"
     },
     {
@@ -22,8 +22,8 @@
       "title": "article title",
       "description": "article description",
       "url": "article url",
-      "urlToImage": "article image url",
-      "publishedAt": "2000-10-10 00:00:00.000Z",
+      "urlToImage": "article url to image",
+      "publishedAt": "2020-10-10T00:00:00.000Z",
       "content": "article content"
     }
   ]

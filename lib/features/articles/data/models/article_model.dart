@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import '../../domain/entities/article.dart';
@@ -26,7 +27,7 @@ class ArticleModel extends Article {
 
   factory ArticleModel.fromJson(String str) =>
       ArticleModel.fromMap(json.decode(str));
-
+  
   String toJson() => json.encode(toMap());
 
   factory ArticleModel.fromMap(Map<String, dynamic> json) => ArticleModel(
@@ -39,7 +40,8 @@ class ArticleModel extends Article {
         publishedAt: DateTime.parse(json['publishedAt']),
         content: json['content'],
       );
-
+  
+  @override
   Map<String, dynamic> toMap() => <String, dynamic>{
         'source': source.toMap(),
         'author': author,

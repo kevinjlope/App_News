@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/platform/network_info.dart';
+import '../../../../core/network/network_info.dart';
 import '../../domain/entities/article.dart';
 import '../../domain/repositories/articles_repository.dart';
 import '../datasource/articles_local_data_source.dart';
@@ -29,7 +29,7 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
       try {
         List<ArticleModel> remoteArticlesByCountry =
             await remoteDataSource!.getArticlesByCountry(country);
-        localDataSource!.cacheArticleByCountry(remoteArticlesByCountry);
+        localDataSource!.cacheArticlesByCountry(remoteArticlesByCountry);
         log('go to for try');
         return Right<Failure, List<Article>>(remoteArticlesByCountry);
       } on ServerException {

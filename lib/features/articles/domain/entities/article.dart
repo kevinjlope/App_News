@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'dart:convert';
 
 import 'source.dart';
 
@@ -36,4 +37,15 @@ class Article extends Equatable {
         publishedAt,
         content,
       ];
+  
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'source': source.toMap(),
+        'author': author,
+        'title': title,
+        'description': description,
+        'url': url,
+        'urlToImage': urlToImage,
+        'publishedAt': publishedAt.toIso8601String(),
+        'content': content,
+      };
 }
