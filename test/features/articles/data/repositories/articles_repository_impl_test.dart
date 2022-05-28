@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:news/core/error/exception.dart';
 import 'package:news/core/error/failure.dart';
 import 'package:news/core/platform/network_info.dart';
 import 'package:news/features/articles/data/datasource/articles_local_data_source.dart';
@@ -31,6 +34,7 @@ void main() {
   MockNetworkInfo? mockNetworkInfo;
 
   setUp(() {
+    log('primer setup');
     mockArticlesRemoteDataSource = MockArticlesRemoteDataSource();
     mockArticlesLocalDataSource = MockArticlesLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
@@ -53,19 +57,11 @@ void main() {
     group('device is online', () {
       setUp(() {
         //arrange
-        when(() => mockArticlesRemoteDataSource!.getArticlesByCountry(country))
-            .thenAnswer((_) async => tArticlesModel);
-        when(() => mockArticlesLocalDataSource!
-                .cacheArticleByCountry(tArticlesModel))
+        log('setup group');
+        when(() => mockArticlesLocalDataSource!.cacheArticleByCountry(any()))
             .thenAnswer((_) async => Future<void>.value());
         when((() => mockNetworkInfo!.isConnected))
             .thenAnswer((_) async => true);
-        //act
-        repository!.getArticlesByCountry(country);
-        //assert
-        verify(
-          () => mockNetworkInfo!.isConnected
-        );
       });
 
       test(
@@ -96,6 +92,66 @@ void main() {
             () => mockArticlesRemoteDataSource!.getArticlesByCountry(country));
         verify(() =>
             mockArticlesLocalDataSource!.cacheArticleByCountry(tArticlesModel));
+      });
+
+      test(
+          'Should return server failure when the call to remote data source'
+          ' is unsuccessful', () async {
+        //arrange
+        when(() => mockArticlesRemoteDataSource!.getArticlesByCountry(country))
+            .thenThrow(ServerException());
+        //act
+        final Either<Failure, List<Article>> result =
+            await repository!.getArticlesByCountry(country);
+        //assert
+        verify(
+            () => mockArticlesRemoteDataSource!.getArticlesByCountry(country));
+        verifyZeroInteractions(mockArticlesLocalDataSource);
+        expect(result, equals(Left<Failure, List<Article>>(ServerFailure())));
+      });
+    });
+
+    group('device is offline', () {
+      setUp(() {
+        //arrange
+        log('setup group');
+        when(() => mockArticlesLocalDataSource!.cacheArticleByCountry(any()))
+            .thenAnswer((_) async => Future<void>.value());
+
+        when(() => mockArticlesRemoteDataSource!.getArticlesByCountry(any()))
+            .thenAnswer(
+                (_) async => Future<List<ArticleModel>>.value(tArticlesModel));
+        when((() => mockNetworkInfo!.isConnected))
+            .thenAnswer((_) async => false);
+      });
+
+      test(
+          'Should return last locally cached data when the cached data is '
+          'present', () async {
+        //arrange
+        when(() => mockArticlesLocalDataSource!.getLatestArticles())
+            .thenAnswer((_) async => tArticlesModel);
+        //act
+        final Either<Failure, List<Article>> result =
+            await repository!.getArticlesByCountry(country);
+        //assert
+        verifyZeroInteractions(mockArticlesRemoteDataSource);
+        verify(() => mockArticlesLocalDataSource!.getLatestArticles());
+        expect(result, equals(Right<Failure, List<Article>>(tArticlesEntity)));
+      });
+
+      test('Should return CacheFailure when there is no cached data present',
+          () async {
+        //arrange
+        when(() => mockArticlesLocalDataSource!.getLatestArticles())
+            .thenThrow(CacheException());
+        //act
+        final Either<Failure, List<Article>> result =
+            await repository!.getArticlesByCountry(country);
+        //assert
+        verifyZeroInteractions(mockArticlesRemoteDataSource);
+        verify(() => mockArticlesLocalDataSource!.getLatestArticles());
+        expect(result, equals(Left<Failure, List<Article>>(CacheFailure())));
       });
     });
   });

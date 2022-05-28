@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/platform/network_info.dart';
 import '../../domain/entities/article.dart';
@@ -22,10 +25,26 @@ class ArticlesRepositoryImpl implements ArticlesRepository {
   Future<Either<Failure, List<Article>>> getArticlesByCountry(
       String country) async {
     // TODO: implement getArticlesByCountry
-    networkInfo!.isConnected;
-    List<ArticleModel> remoteArticlesByCountry =
-        await remoteDataSource!.getArticlesByCountry(country);
-    localDataSource!.cacheArticleByCountry(remoteArticlesByCountry);
-    return Right<Failure, List<Article>>(remoteArticlesByCountry);
+    if (await networkInfo!.isConnected) {
+      try {
+        List<ArticleModel> remoteArticlesByCountry =
+            await remoteDataSource!.getArticlesByCountry(country);
+        localDataSource!.cacheArticleByCountry(remoteArticlesByCountry);
+        log('go to for try');
+        return Right<Failure, List<Article>>(remoteArticlesByCountry);
+      } on ServerException {
+        log('go to exception');
+        return Left<Failure, List<Article>>(ServerFailure());
+      }
+    } else {
+      log('go to else');
+      try {
+        final List<ArticleModel> localArticlesByCountry =
+            await localDataSource!.getLatestArticles();
+        return Right<Failure, List<Article>>(localArticlesByCountry);
+      } on CacheException {
+        return Left<Failure, List<Article>>(CacheFailure());
+      }
+    }
   }
 }
