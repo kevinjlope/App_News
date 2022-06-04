@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n/locale_keys.g.dart';
 import 'tab1_page.dart';
 import 'tab2_page.dart';
 
@@ -32,11 +34,13 @@ class _Navigation extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: navigationModel.pageCurrent,
       onTap: (int i) => navigationModel.pageCurrent = i,
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline), label: 'For you'),
+            icon: const Icon(Icons.person_outline),
+            label: LocaleKeys.forYou.tr()),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline), label: 'Headlines'),
+            icon: const Icon(Icons.person_outline),
+            label: LocaleKeys.headlines.tr()),
       ],
     );
   }

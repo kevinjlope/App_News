@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../.env_example/env.dart';
+import '../../.env/env_example.dart';
 import '../models/news_models.dart';
 
 // ignore: prefer_mixin
