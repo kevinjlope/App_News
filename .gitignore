@@ -16,8 +16,8 @@
 .idea/
 
 #ENV
-.env/
-
+# .env/
+env.dart
 .fvm/
 
 # The .vscode folder contains launch configuration and tasks you configure in
