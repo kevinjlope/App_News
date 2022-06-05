@@ -1,17 +1,19 @@
-name: "CI Pipeline"
+name: "CI App News"
 
 on:
-  push:
-  pull_request:
-    types: [opened, reopened, synchronize, edited]
-    branches: [develop, master]
+  [push]
+  # pull_request:
+  #   types: [opened, reopened, synchronize, edited]
+  #   branches: [develop, master]
 
 jobs:
   build:
     name: Linter and unit tests
     runs-on: ubuntu-latest
-    steps:
+    container:
+      image: dart:2.16.2
 
+    steps:
       - name: Actions checkout
         uses: actions/checkout@v3
 
@@ -25,14 +27,26 @@ jobs:
           flutter-version: '2.10.4'
           channel: 'stable'
 
-      - name: Flutter version
-        run: flutter --version
-
-      - name: Pub Get
+      - name: Install Dependencies
         run: flutter pub get
-      
+
+      - name: Activate coverage
+        run: dart pub global activate coverage
+
       - name: Run linter
         run: flutter analyze
       
-      # - name: Run test
-      #   run: flutter test
+      - name: Run test
+        run: dart pub global run coverage:test_with_coverage
+      
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: "./coverage/lcov.info"
+          min_coverage: 80
+
+      - name: Upload coverage to Codecov 
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: coverage/lcov.info
