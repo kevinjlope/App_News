@@ -28,13 +28,13 @@ jobs:
           channel: 'stable'
 
       - name: Install Dependencies
-        run: flutter pub get
+        run: dart pub get
 
       - name: Activate coverage
         run: dart pub global activate coverage
 
       - name: Run linter
-        run: flutter analyze
+        run: dart analyze
       
       - name: Run test
         run: dart pub global run coverage:test_with_coverage
