@@ -10,8 +10,8 @@ jobs:
   build:
     name: Linter and unit tests
     runs-on: ubuntu-latest
-    container:
-      image: dart:2.16.2
+    # container:
+    #   image: dart:2.16.2
 
     steps:
       - name: Actions checkout
